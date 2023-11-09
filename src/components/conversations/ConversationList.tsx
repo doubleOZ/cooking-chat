@@ -10,18 +10,23 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import ConversationBox from "./ConversationBox";
+import MenuDrawer from "../sidebar/MenuDrawer";
+import { Menu } from "lucide-react";
 
 interface ConversationListProps {
   initialItems: FullConversationType[];
-  users: User[];
+  currentUser: User;
+  users?: User[];
   title?: string;
 }
 
 const ConversationList: React.FC<ConversationListProps> = ({
-  initialItems, // this is called initialItems because it is only used to populate the page on first load. pusher will come in after this to show items as they get updated
+  initialItems,
+  currentUser, // this is called initialItems because it is only used to populate the page on first load. pusher will come in after this to show items as they get updated
 }) => {
   const session = useSession();
   const [items, setItems] = useState(initialItems);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const router = useRouter();
 
@@ -79,9 +84,19 @@ const ConversationList: React.FC<ConversationListProps> = ({
     >
       <div className="">
         <div className="flex justify-between mb-4 pt-4 px-5">
-          {/* <div>
-            <Menu />
-          </div> */}
+          <div
+            className="justify-center flex  items-center pt-5 text-neutral-400 hover:text-neutral-600"
+            onClick={() => setIsMenuOpen((isMenuOpen) => !isMenuOpen)}
+          >
+            <div>
+              <Menu />
+            </div>
+          </div>
+          <MenuDrawer
+            isMenuOpen={isMenuOpen}
+            onClose={() => setIsMenuOpen(false)}
+            data={currentUser}
+          />
           <div className="text-2xl font-bold text-neutral-800">Messages</div>
           {/* <div className="rounded-full p-2 bg-gray-100 text-gray-600 cursor-pointer hover:opacity-75 transition">
             <UserPlus2 size={30} />
