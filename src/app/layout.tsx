@@ -18,6 +18,15 @@ export default function RootLayout({
 }) {
   return (
     <html className="bg-orange-50" lang="en">
+      <head>
+        <link rel="icon" href="/favicon.ico" sizes="any" />
+        <link
+          rel="icon"
+          href="/icon/<generated>"
+          type="image/<generated>"
+          sizes="<generated>"
+        />
+      </head>
       <body className={inter.className}>
         <AuthWrapper>
           <ToasterContext />
